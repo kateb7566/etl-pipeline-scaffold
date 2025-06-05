@@ -4,7 +4,7 @@ import argparse
 
 import config
 
-def scaffold(base_path: str, structure: dict):
+def scaffold(base_path: Path, structure: dict):
     for name, content in structure.items():
         if name == "__files__":
             for file_name in content:
@@ -13,6 +13,13 @@ def scaffold(base_path: str, structure: dict):
                 if not file_path.exists():
                     with open(file_path, "w") as f:
                         f.write(config.TEMPLATE_FILES.get(file_name, ""))
+        elif type(content) is list:
+            for filename in content:
+                filepath = base_path / name / filename
+                filepath.parent.mkdir(parents=True, exist_ok=True)
+                if not filepath.exists():
+                    with open(filepath, "w") as f:
+                        f.write(config.TEMPLATE_FILES.get(filename, ""))
         else:
             new_path = base_path / name
             new_path.mkdir(parents=True, exist_ok=True)

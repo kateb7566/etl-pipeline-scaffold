@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+psutil
+sqlalchemy[asyncio]
+aiofiles
+pydantic
+redis
